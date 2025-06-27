@@ -4,23 +4,23 @@ import { SearchLink } from './SearchLink';
 import cn from 'classnames';
 import { memo } from 'react';
 
-type PeopleFiltersPrors = {
+type PeopleFiltersProps = {
   query: string;
   selectedGender: string;
-  selectedCentury: string[];
+  selectedCenturies: string[];
   handleQueryChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
-const centuryFilterValues = ['16', '17', '18', '19', '20'];
+const CENTURY_FILTER_VALUES = ['16', '17', '18', '19', '20'];
 
 export const PeopleFilters = memo(
   ({
     query,
     handleQueryChange,
     selectedGender,
-    selectedCentury,
-  }: PeopleFiltersPrors) => {
-    const isAllCenturiesSelected = selectedCentury.length === 0;
+    selectedCenturies,
+  }: PeopleFiltersProps) => {
+    const isAllCenturiesSelected = selectedCenturies.length === 0;
 
     return (
       <nav className="panel">
@@ -36,7 +36,7 @@ export const PeopleFilters = memo(
               <SearchLink
                 key={key}
                 params={{ sex: value === '' ? null : value }}
-                className={isActive ? 'is-active' : ''}
+                className={cn({ 'is-active': isActive })}
               >
                 {key}
               </SearchLink>
@@ -67,11 +67,12 @@ export const PeopleFilters = memo(
             data-cy="CenturyFilter"
           >
             <div className="level-left">
-              {centuryFilterValues.map(century => {
-                const isActive = selectedCentury.includes(century);
+              {CENTURY_FILTER_VALUES.map(century => {
+                const isActive = selectedCenturies.includes(century);
+
                 const newSelectedCentury = isActive
-                  ? selectedCentury.filter(c => c !== century)
-                  : [...selectedCentury, century];
+                  ? selectedCenturies.filter(selected => selected !== century)
+                  : [...selectedCenturies, century];
 
                 const params = {
                   centuries:

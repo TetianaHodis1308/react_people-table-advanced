@@ -15,7 +15,7 @@ export const PeoplePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get('query') || '';
   const selectedGender = searchParams.get('sex') || '';
-  const selectedCentury = searchParams.getAll('centuries') || [];
+  const selectedCenturies = searchParams.getAll('centuries') || [];
   const currentSort = searchParams.get('sort');
   const currentOrder = searchParams.get('order');
 
@@ -23,7 +23,7 @@ export const PeoplePage = () => {
     people,
     query,
     selectedGender,
-    selectedCentury,
+    selectedCenturies,
     currentSort,
     currentOrder,
   );
@@ -31,9 +31,7 @@ export const PeoplePage = () => {
   useEffect(() => {
     setIsLoading(true);
     getPeople()
-      .then(peopleFromServer => {
-        setPeople(peopleFromServer);
-      })
+      .then(setPeople)
       .catch(() => setIsError(true))
       .finally(() => {
         setIsLoading(false);
@@ -69,7 +67,7 @@ export const PeoplePage = () => {
                 query={query}
                 handleQueryChange={handleQueryChange}
                 selectedGender={selectedGender}
-                selectedCentury={selectedCentury}
+                selectedCenturies={selectedCenturies}
               />
             </div>
 
